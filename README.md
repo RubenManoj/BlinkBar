@@ -62,6 +62,12 @@ https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.2/BlinkBar-1.0.2.z
 
 After downloading the DMG, open it and drag `BlinkBar.app` into `Applications`.
 
+For macOS notification reminders, enable notifications after first launch:
+
+```text
+System Settings > Notifications > BlinkBar > Allow Notifications
+```
+
 Check tools:
 
 ```sh
@@ -163,7 +169,7 @@ The default interval is 20 minutes.
 
 ## Notification Mode
 
-macOS notification mode requires notification permission:
+macOS notification mode requires notification permission. If you want to use this reminder style, you must enable BlinkBar in System Settings:
 
 ```text
 System Settings > Notifications > BlinkBar > Allow Notifications
