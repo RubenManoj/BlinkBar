@@ -57,31 +57,37 @@ let footerAttributes: [NSAttributedString.Key: Any] = [
 ]
 
 "Install BlinkBar".draw(at: NSPoint(x: 40, y: 328), withAttributes: titleAttributes)
-"Drag BlinkBar.app into Applications".draw(at: NSPoint(x: 42, y: 300), withAttributes: subtitleAttributes)
+"Drag BlinkBar.app into Applications".draw(at: NSPoint(x: 42, y: 298), withAttributes: subtitleAttributes)
 
 let panel = NSBezierPath(roundedRect: NSRect(x: 42, y: 68, width: 576, height: 188), xRadius: 24, yRadius: 24)
 NSColor.white.withAlphaComponent(0.46).setFill()
 panel.fill()
 
+let arrowShadow = NSBezierPath()
+arrowShadow.lineWidth = 8
+arrowShadow.lineCapStyle = .round
+arrowShadow.lineJoinStyle = .round
+arrowShadow.move(to: NSPoint(x: 272, y: 164))
+arrowShadow.line(to: NSPoint(x: 390, y: 164))
+arrowShadow.move(to: NSPoint(x: 390, y: 164))
+arrowShadow.line(to: NSPoint(x: 370, y: 184))
+arrowShadow.move(to: NSPoint(x: 390, y: 164))
+arrowShadow.line(to: NSPoint(x: 370, y: 144))
+NSColor.white.withAlphaComponent(0.8).setStroke()
+arrowShadow.stroke()
+
 let arrowPath = NSBezierPath()
-arrowPath.lineWidth = 6
+arrowPath.lineWidth = 5
 arrowPath.lineCapStyle = .round
 arrowPath.lineJoinStyle = .round
-arrowPath.move(to: NSPoint(x: 268, y: 170))
-arrowPath.curve(to: NSPoint(x: 392, y: 170), controlPoint1: NSPoint(x: 306, y: 196), controlPoint2: NSPoint(x: 354, y: 196))
+arrowPath.move(to: NSPoint(x: 272, y: 166))
+arrowPath.line(to: NSPoint(x: 388, y: 166))
+arrowPath.move(to: NSPoint(x: 388, y: 166))
+arrowPath.line(to: NSPoint(x: 370, y: 184))
+arrowPath.move(to: NSPoint(x: 388, y: 166))
+arrowPath.line(to: NSPoint(x: 370, y: 148))
 accent.setStroke()
 arrowPath.stroke()
-
-let arrowHead = NSBezierPath()
-arrowHead.lineWidth = 6
-arrowHead.lineCapStyle = .round
-arrowHead.lineJoinStyle = .round
-arrowHead.move(to: NSPoint(x: 392, y: 170))
-arrowHead.line(to: NSPoint(x: 374, y: 185))
-arrowHead.move(to: NSPoint(x: 392, y: 170))
-arrowHead.line(to: NSPoint(x: 374, y: 155))
-accent.setStroke()
-arrowHead.stroke()
 
 "If macOS blocks first launch: System Settings > Privacy & Security > Open Anyway."
     .draw(at: NSPoint(x: 42, y: 30), withAttributes: footerAttributes)
