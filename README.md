@@ -51,10 +51,16 @@ https://github.com/RubenManoj/BlinkBar/releases/latest
 Direct v1.0.0 download:
 
 ```text
+https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.0/BlinkBar-1.0.dmg
+```
+
+Alternative zip download:
+
+```text
 https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.0/BlinkBar-1.0.zip
 ```
 
-After downloading, unzip `BlinkBar-1.0.zip`, move `BlinkBar.app` to `/Applications`, and open it.
+After downloading the DMG, open it and drag `BlinkBar.app` into `Applications`.
 
 Check tools:
 
@@ -124,6 +130,7 @@ The shareable zip is created at:
 
 ```text
 dist/BlinkBar-1.0.zip
+dist/BlinkBar-1.0.dmg
 ```
 
 The package script:
@@ -134,6 +141,7 @@ The package script:
 - Adds `Info.plist`
 - Ad-hoc signs the app
 - Creates a clean zip for sharing
+- Creates a DMG with `BlinkBar.app` and an `Applications` shortcut
 
 See [INSTALL.md](INSTALL.md) for install notes.
 
@@ -186,7 +194,7 @@ For wider distribution, the next production steps are:
 - Harden the runtime
 - Notarize the app with Apple
 - Staple the notarization ticket
-- Optionally create a DMG installer
+- Add Apple notarization for the DMG
 
 ## Repository
 

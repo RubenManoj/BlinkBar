@@ -1,12 +1,19 @@
 # Installing BlinkBar
 
-BlinkBar is distributed as a zipped macOS app bundle.
+BlinkBar is distributed as a macOS DMG and a fallback zip.
 
 ## Install
 
+1. Download `BlinkBar-1.0.dmg`.
+2. Open the DMG.
+3. Drag `BlinkBar.app` into the `Applications` folder shortcut.
+4. Open BlinkBar from `/Applications`.
+
+If you downloaded the zip instead:
+
 1. Unzip `BlinkBar-1.0.zip`.
 2. Move `BlinkBar.app` to `/Applications`.
-3. Open `BlinkBar.app`.
+3. Open BlinkBar from `/Applications`.
 
 Because this local build is ad-hoc signed and not notarized by Apple, macOS may block the first launch.
 
