@@ -35,55 +35,56 @@ NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
 
 let rect = NSRect(origin: .zero, size: size)
 NSGradient(colors: [
-    NSColor(calibratedRed: 0.07, green: 0.08, blue: 0.11, alpha: 1),
-    NSColor(calibratedRed: 0.12, green: 0.15, blue: 0.19, alpha: 1)
+    NSColor(calibratedRed: 0.96, green: 0.98, blue: 1.0, alpha: 1),
+    NSColor(calibratedRed: 0.88, green: 0.93, blue: 0.98, alpha: 1)
 ])?.draw(in: rect, angle: 90)
 
-let accent = NSColor(calibratedRed: 0.30, green: 0.72, blue: 1.0, alpha: 1)
-let mint = NSColor(calibratedRed: 0.39, green: 0.86, blue: 0.72, alpha: 1)
+let accent = NSColor(calibratedRed: 0.10, green: 0.48, blue: 0.92, alpha: 1)
+let graphite = NSColor(calibratedRed: 0.12, green: 0.15, blue: 0.19, alpha: 1)
+let secondary = NSColor(calibratedRed: 0.38, green: 0.44, blue: 0.52, alpha: 1)
 
 let titleAttributes: [NSAttributedString.Key: Any] = [
-    .font: NSFont.systemFont(ofSize: 28, weight: .bold),
-    .foregroundColor: NSColor.white
+    .font: NSFont.systemFont(ofSize: 30, weight: .bold),
+    .foregroundColor: graphite
 ]
 let subtitleAttributes: [NSAttributedString.Key: Any] = [
     .font: NSFont.systemFont(ofSize: 15, weight: .medium),
-    .foregroundColor: NSColor.white.withAlphaComponent(0.70)
+    .foregroundColor: secondary
 ]
 let footerAttributes: [NSAttributedString.Key: Any] = [
     .font: NSFont.systemFont(ofSize: 12, weight: .regular),
-    .foregroundColor: NSColor.white.withAlphaComponent(0.46)
+    .foregroundColor: secondary.withAlphaComponent(0.82)
 ]
 
-"Install BlinkBar".draw(at: NSPoint(x: 38, y: 332), withAttributes: titleAttributes)
-"Drag BlinkBar into Applications".draw(at: NSPoint(x: 40, y: 306), withAttributes: subtitleAttributes)
+"Install BlinkBar".draw(at: NSPoint(x: 40, y: 328), withAttributes: titleAttributes)
+"Drag BlinkBar.app into Applications".draw(at: NSPoint(x: 42, y: 300), withAttributes: subtitleAttributes)
 
-let glow = NSBezierPath(ovalIn: NSRect(x: 246, y: 115, width: 168, height: 100))
-mint.withAlphaComponent(0.06).setFill()
-glow.fill()
+let panel = NSBezierPath(roundedRect: NSRect(x: 42, y: 68, width: 576, height: 188), xRadius: 24, yRadius: 24)
+NSColor.white.withAlphaComponent(0.46).setFill()
+panel.fill()
 
 let arrowPath = NSBezierPath()
-arrowPath.lineWidth = 7
+arrowPath.lineWidth = 6
 arrowPath.lineCapStyle = .round
 arrowPath.lineJoinStyle = .round
-arrowPath.move(to: NSPoint(x: 260, y: 198))
-arrowPath.curve(to: NSPoint(x: 402, y: 198), controlPoint1: NSPoint(x: 306, y: 232), controlPoint2: NSPoint(x: 356, y: 232))
+arrowPath.move(to: NSPoint(x: 268, y: 170))
+arrowPath.curve(to: NSPoint(x: 392, y: 170), controlPoint1: NSPoint(x: 306, y: 196), controlPoint2: NSPoint(x: 354, y: 196))
 accent.setStroke()
 arrowPath.stroke()
 
 let arrowHead = NSBezierPath()
-arrowHead.lineWidth = 7
+arrowHead.lineWidth = 6
 arrowHead.lineCapStyle = .round
 arrowHead.lineJoinStyle = .round
-arrowHead.move(to: NSPoint(x: 402, y: 198))
-arrowHead.line(to: NSPoint(x: 381, y: 215))
-arrowHead.move(to: NSPoint(x: 402, y: 198))
-arrowHead.line(to: NSPoint(x: 381, y: 181))
+arrowHead.move(to: NSPoint(x: 392, y: 170))
+arrowHead.line(to: NSPoint(x: 374, y: 185))
+arrowHead.move(to: NSPoint(x: 392, y: 170))
+arrowHead.line(to: NSPoint(x: 374, y: 155))
 accent.setStroke()
 arrowHead.stroke()
 
 "If macOS blocks first launch: System Settings > Privacy & Security > Open Anyway."
-    .draw(at: NSPoint(x: 40, y: 28), withAttributes: footerAttributes)
+    .draw(at: NSPoint(x: 42, y: 30), withAttributes: footerAttributes)
 
 NSGraphicsContext.restoreGraphicsState()
 
