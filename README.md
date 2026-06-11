@@ -40,6 +40,22 @@ It is designed to stay out of the way: it lives in the menu bar, shows a lightwe
 - Apple Silicon Mac recommended
 - Xcode command line tools
 
+## Download
+
+Download the latest packaged app from GitHub Releases:
+
+```text
+https://github.com/RubenManoj/BlinkBar/releases/latest
+```
+
+Direct v1.0.0 download:
+
+```text
+https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.0/BlinkBar-1.0.zip
+```
+
+After downloading, unzip `BlinkBar-1.0.zip`, move `BlinkBar.app` to `/Applications`, and open it.
+
 Check tools:
 
 ```sh
