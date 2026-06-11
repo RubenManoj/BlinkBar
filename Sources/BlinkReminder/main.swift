@@ -79,6 +79,7 @@ final class ReminderController: NSObject {
     private let styleKey = "blinkReminder.style"
     private let launchAtLoginKey = "blinkReminder.launchAtLogin"
     private let notificationIdentifier = "blinkBar.notification"
+    private let notificationSettingsPath = "System Settings > Notifications > BlinkBar > Allow Notifications"
 
     private let callAppBundleIDs: Set<String> = [
         "us.zoom.xos",
@@ -100,6 +101,7 @@ final class ReminderController: NSObject {
     private var fullScreenWindows: [NSWindow] = []
     private var popupWindow: NSWindow?
     private var notificationStatusText = "Notification status: Checking..."
+    private var notificationHelpShownThisSession = false
 
     init(appDelegate: AppDelegate) {
         self.appDelegate = appDelegate
@@ -175,17 +177,6 @@ final class ReminderController: NSObject {
 
     private func configureNotifications() {
         UNUserNotificationCenter.current().delegate = notificationDelegate
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { granted, error in
-            if let error {
-                NSLog("BlinkBar notification authorization failed: \(error.localizedDescription)")
-            }
-            if !granted {
-                NSLog("BlinkBar notification authorization not granted.")
-            }
-            Task { @MainActor in
-                self.refreshNotificationStatus()
-            }
-        }
         refreshNotificationStatus()
     }
 
@@ -252,6 +243,14 @@ final class ReminderController: NSObject {
         let notificationStatus = NSMenuItem(title: notificationStatusText, action: #selector(refreshNotificationStatusFromMenu), keyEquivalent: "")
         notificationStatus.target = self
         menu.addItem(notificationStatus)
+
+        let notificationSettings = NSMenuItem(
+            title: "Open Notification Settings...",
+            action: #selector(openNotificationSettingsFromMenu),
+            keyEquivalent: ""
+        )
+        notificationSettings.target = self
+        menu.addItem(notificationSettings)
 
         menu.addItem(NSMenuItem.separator())
         let launchAtLogin = NSMenuItem(
@@ -404,8 +403,50 @@ final class ReminderController: NSObject {
             return
         }
 
-        reminderStyle = style
+        if style == .notification {
+            enableNotificationStyle()
+        } else {
+            reminderStyle = style
+            refreshMenu()
+        }
+    }
+
+    private func enableNotificationStyle() {
+        reminderStyle = .notification
         refreshMenu()
+
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            switch settings.authorizationStatus {
+            case .authorized, .provisional, .ephemeral:
+                Task { @MainActor in
+                    self?.refreshNotificationStatus()
+                }
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { granted, error in
+                    if let error {
+                        NSLog("BlinkBar notification authorization failed: \(error.localizedDescription)")
+                    }
+                    Task { @MainActor in
+                        self?.refreshNotificationStatus()
+                        if !granted {
+                            self?.showNotificationSettingsHelp()
+                        }
+                    }
+                }
+            case .denied:
+                Task { @MainActor in
+                    self?.notificationStatusText = "Notification status: Denied"
+                    self?.refreshMenu()
+                    self?.showNotificationSettingsHelp()
+                }
+            @unknown default:
+                Task { @MainActor in
+                    self?.notificationStatusText = "Notification status: Unknown"
+                    self?.refreshMenu()
+                    self?.showNotificationSettingsHelp()
+                }
+            }
+        }
     }
 
     @objc private func toggleLaunchAtLogin() {
@@ -458,6 +499,10 @@ final class ReminderController: NSObject {
 
     @objc private func refreshNotificationStatusFromMenu() {
         refreshNotificationStatus()
+    }
+
+    @objc private func openNotificationSettingsFromMenu() {
+        openNotificationSettings()
     }
 
     @objc private func quitFromMenu() {
@@ -581,6 +626,7 @@ final class ReminderController: NSObject {
                 Task { @MainActor in
                     self?.notificationStatusText = statusText
                     self?.refreshMenu()
+                    self?.showNotificationSettingsHelp()
                     self?.showPopup()
                 }
                 return
@@ -617,6 +663,30 @@ final class ReminderController: NSObject {
             return "\(Int(minutes)) minutes"
         }
         return String(format: "%.1f minutes", minutes)
+    }
+
+    private func showNotificationSettingsHelp() {
+        guard !notificationHelpShownThisSession else { return }
+        notificationHelpShownThisSession = true
+
+        let alert = NSAlert()
+        alert.messageText = "Enable BlinkBar notifications"
+        alert.informativeText = "To use macOS notification reminders, enable:\n\n\(notificationSettingsPath)"
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Open System Settings")
+        alert.addButton(withTitle: "Not Now")
+
+        NSApp.activate(ignoringOtherApps: true)
+        if alert.runModal() == .alertFirstButtonReturn {
+            openNotificationSettings()
+        }
+    }
+
+    private func openNotificationSettings() {
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension") else {
+            return
+        }
+        NSWorkspace.shared.open(url)
     }
 }
 
