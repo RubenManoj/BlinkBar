@@ -48,16 +48,16 @@ Download the latest packaged app from GitHub Releases:
 https://github.com/RubenManoj/BlinkBar/releases/latest
 ```
 
-Direct v1.0.0 download:
+Direct v1.0.1 download:
 
 ```text
-https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.0/BlinkBar-1.0.dmg
+https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.1/BlinkBar-1.0.1.dmg
 ```
 
 Alternative zip download:
 
 ```text
-https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.0/BlinkBar-1.0.zip
+https://github.com/RubenManoj/BlinkBar/releases/download/v1.0.1/BlinkBar-1.0.1.zip
 ```
 
 After downloading the DMG, open it and drag `BlinkBar.app` into `Applications`.
@@ -129,8 +129,8 @@ chmod +x distribute.sh
 The shareable zip is created at:
 
 ```text
-dist/BlinkBar-1.0.zip
-dist/BlinkBar-1.0.dmg
+dist/BlinkBar-1.0.1.zip
+dist/BlinkBar-1.0.1.dmg
 ```
 
 The package script:
